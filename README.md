@@ -24,7 +24,7 @@ This project showcases the power of Vercel AI SDK's `generateObject` function, w
 - Type-safe AI responses using Zod schema validation
 - Structured data output for consistent UI rendering
 - Multi-modal capabilities (text + image analysis)
-- Easy integration with GPT-4 Vision
+- Easy integration with GPT-4o
 
 The `generateObject` function ensures we get properly formatted nutritional data every time, making the app reliable and maintainable.
 
