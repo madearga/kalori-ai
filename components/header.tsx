@@ -21,7 +21,7 @@ export function Header() {
             className="md:hidden font-semibold"
           >
             <Link
-              href="https://github.com/mauxxxx/calories"
+              href="https://github.com/xmannii/maux-calories-tracker"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -52,7 +52,7 @@ export function Header() {
             className="hidden md:flex gap-2 items-center"
           >
             <Link
-              href="https://github.com/mauxxxx/calories"
+              href="https://github.com/xmannii/maux-calories-tracker"
               target="_blank"
               rel="noopener noreferrer font-semibold"
             >
