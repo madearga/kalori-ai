@@ -1,101 +1,198 @@
-import Image from "next/image";
+'use client';
+
+import { useState } from 'react';
+import { Upload , Loader2Icon} from 'lucide-react';
+import Image from 'next/image';
+import { Card } from "@/components/ui/card";
+import {
+  UploadDropzone,
+} from "@/components/ui/upload-dropzone";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
+import { toast } from "sonner";
+
+
+interface AnalysisResult {
+  analysis: {
+    foodName: string;
+    calories: number;
+    macronutrients: {
+      protein: number;
+      carbs: number;
+      fat: number;
+    };
+    foodItems: string[];
+    confidence: number;
+  };
+}
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [analysis, setAnalysis] = useState<AnalysisResult | null>(null);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const handleImageUpload = (file: File) => {
+    if (selectedImage) {
+      toast.error("Please remove the current image before uploading a new one");
+      return;
+    }
+    setImageFile(file);
+    setSelectedImage(URL.createObjectURL(file));
+  };
+
+  const handleAnalyze = async () => {
+    if (!imageFile) return;
+
+    setIsAnalyzing(true);
+    const formData = new FormData();
+    formData.append('image', imageFile);
+
+    try {
+      const response = await fetch('/api/analyze', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) throw new Error('Analysis failed');
+
+      const result = await response.json();
+      setAnalysis(result);
+    } catch (error) {
+      toast.error("Failed to analyze image. Please try again.");
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
+
+  return (
+    <>
+      <div className="min-h-screen p-8 flex items-center justify-center  -mt-10 md:h-[calc(100vh-64px)]">
+        <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-8">
+          {/* Image Preview Section */}
+          <Card className="p-4">
+            {selectedImage ? (
+              <div className="space-y-4">
+                <div className="relative aspect-square w-full overflow-hidden rounded-lg">
+                  <Image
+                    src={selectedImage}
+                    alt="Food preview"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <Button 
+                  onClick={() => {
+                    setSelectedImage(null);
+                    setImageFile(null);
+                    setAnalysis(null);
+                  }}
+                  variant="outline"
+                  className="w-full"
+                >
+                  Remove Image
+                </Button>
+              </div>
+            ) : (
+              <div className="text-center text-muted-foreground h-[400px] flex items-center justify-center">
+                No image selected please upload an image to analyze
+              </div>
+            )}
+          </Card>
+
+          <div className="space-y-6">
+            {/* Upload Section */}
+            <Card className="p-6">
+              <UploadDropzone
+                endpoint="/"
+                onClientUpload={handleImageUpload}
+                className="w-full"
+              />
+              <Button
+                className="w-full mt-4"
+                onClick={handleAnalyze}
+                disabled={!imageFile || isAnalyzing}
+              >
+                {isAnalyzing ? (
+                  <>
+                    <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
+                    Analyzing...
+                  </>
+                ) : (
+                  'Analyze Image'
+                )}
+              </Button>
+            </Card>
+
+            {/* Analysis Results */}
+            {analysis && (
+              <Card className="p-6 ">
+                <h2 className="text-2xl font-bold mb-4">Analysis Results</h2>
+                <div className="space-y-4">
+                  <div>
+                    <h3 className="font-semibold mb-2">Food Name</h3>
+                    <div className="text-xl font-medium">
+                      {analysis.analysis.foodName}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="font-semibold mb-2">Calories</h3>
+                    <div className="text-3xl font-bold">
+                      {analysis.analysis.calories} kcal
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="font-semibold mb-2">Macronutrients</h3>
+                    <div className="space-y-2">
+                      <div>
+                        <div className="flex justify-between mb-1">
+                          <span>Protein</span>
+                          <span>{analysis.analysis.macronutrients.protein}g</span>
+                        </div>
+                        <Progress value={analysis.analysis.macronutrients.protein} />
+                      </div>
+                      <div>
+                        <div className="flex justify-between mb-1">
+                          <span>Carbs</span>
+                          <span>{analysis.analysis.macronutrients.carbs}g</span>
+                        </div>
+                        <Progress value={analysis.analysis.macronutrients.carbs} />
+                      </div>
+                      <div>
+                        <div className="flex justify-between mb-1">
+                          <span>Fat</span>
+                          <span>{analysis.analysis.macronutrients.fat}g</span>
+                        </div>
+                        <Progress value={analysis.analysis.macronutrients.fat} />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="font-semibold mb-2">Detected Foods</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {analysis.analysis.foodItems.map((item, index) => (
+                        <span
+                          key={index}
+                          className="px-2 py-1 bg-secondary rounded-full text-sm"
+                        >
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="text-sm text-muted-foreground">
+                    Confidence Score: {(analysis.analysis.confidence * 100).toFixed(1)}%
+                  </div>
+                </div>
+              </Card>
+            )}
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </div>
+    </>
   );
 }
