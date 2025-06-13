@@ -24,7 +24,7 @@ export function UploadDropzone({
   });
 
   return (
-    <div
+      <div
       {...getRootProps()}
       className={`border-2 border-dashed rounded-lg p-6 cursor-pointer hover:border-primary/50 transition-colors ${
         isDragActive ? "border-primary" : "border-muted-foreground/25"
@@ -32,6 +32,9 @@ export function UploadDropzone({
     >
       <input {...getInputProps()} />
       <div className="flex flex-col items-center justify-center space-y-2 text-center">
+        <div className="text-sm text-muted-foreground mb-2">
+          Pastikan foto yang kamu posting jelas untuk akurasi yang lebih tinggi
+        </div>
         <UploadCloud className="h-8 w-8 text-muted-foreground" />
         <div className="text-sm">
           <span className="font-semibold">Click to upload</span> or drag and drop

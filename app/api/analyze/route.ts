@@ -28,13 +28,13 @@ export async function POST(req: Request) {
     // Simple approach to identify user by IP (can be improved with authentication)
     const userIp = req.headers.get('x-forwarded-for') || 'anonymous';
     const rateLimitKey = `rate_limit:upload:${userIp}`;
-    const rateLimitWindow = 300; // 5 minutes in seconds
-    const maxUploads = 2;
+    const rateLimitWindow = 1800; // 30 minutes in seconds
+    const maxUploads = 10;
 
     // Check rate limit using Redis
     const currentCount = await redis.get(rateLimitKey);
     if (currentCount !== null && Number(currentCount) >= maxUploads) {
-      return new Response('Rate limit exceeded. You can upload a maximum of 2 photos every 5 minutes.', { status: 429 });
+      return new Response('Rate limit exceeded. You can upload a maximum of 10 photos every 30 minutes.', { status: 429 });
     }
 
     // Increment count and set expiration if first upload in window

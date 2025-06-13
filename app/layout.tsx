@@ -3,6 +3,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "sonner";
 import { Header } from "@/components/header";
+import { InstallPrompt } from "@/components/InstallPrompt";
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -36,6 +38,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="Calories Tracker" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="theme-color" content="#ffffff" />
+        <script src="/register-service-worker.js" defer></script>
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable}  antialiased`}
       >
@@ -44,6 +55,7 @@ export default function RootLayout({
           {children}
         </main>
         <Toaster />
+        <InstallPrompt />
       </body>
     </html>
   );
