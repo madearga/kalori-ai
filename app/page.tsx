@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Upload , Loader2Icon} from 'lucide-react';
+import { Loader2Icon } from 'lucide-react';
 import Image from 'next/image';
 import { Card } from "@/components/ui/card";
 import {
@@ -58,7 +58,7 @@ export default function Home() {
 
       const result = await response.json();
       setAnalysis(result);
-    } catch (error) {
+    } catch {
       toast.error("Failed to analyze image. Please try again.");
     } finally {
       setIsAnalyzing(false);
@@ -104,7 +104,6 @@ export default function Home() {
             {/* Upload Section */}
             <Card className="p-6">
               <UploadDropzone
-                endpoint="/"
                 onClientUpload={handleImageUpload}
                 className="w-full"
               />

@@ -1,7 +1,4 @@
-import Link from 'next/link'
-import { GitHubLogoIcon, VercelLogoIcon } from '@radix-ui/react-icons'
-import { Button } from '@/components/ui/button'
-import { IconMaux , IconSeparator } from '@/components/ui/icons'
+import { IconMaux, IconSeparator } from '@/components/ui/icons'
 
 export function Header() {
   return (
