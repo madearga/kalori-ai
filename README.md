@@ -1,14 +1,15 @@
-# AI Calorie Analyzer 🍽️
+# Kalori-AI 🍽️
 
-A modern web application that analyzes food images using **Vercel AI SDK** to provide nutritional information. Simply upload a photo of your food, and get instant details about calories and nutrients.
+Aplikasi web modern yang menganalisis gambar makanan menggunakan **Vercel AI SDK** untuk memberikan informasi nutrisi. Cukup upload foto makanan Anda, dan dapatkan detail kalori serta nutrisi secara instan.
 
 ## Features ✨
 
-- Upload food images with drag-and-drop
-- Get instant AI analysis of food content
-- View calories and macronutrients
-- See detailed breakdown of detected ingredients
-- Beautiful, responsive UI
+- Upload gambar makanan dengan drag-and-drop
+- Analisis AI instan untuk konten makanan
+- Lihat kalori dan makronutrien
+- Detail breakdown bahan makanan yang terdeteksi
+- UI yang indah dan responsif
+- PWA support untuk instalasi mobile
 
 ## Tech Stack 🛠️
 

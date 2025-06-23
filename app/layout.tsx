@@ -16,16 +16,16 @@ const geistMono = localFont({
   weight: "100 900",
 });
 export const metadata: Metadata = {
-  title: "Calorie Tracker | AI-Powered Food Analysis",
-  description: "Upload food images and get instant calorie counts and nutritional analysis powered by advanced AI. Track macronutrients, identify ingredients, and make informed dietary choices.",
-  keywords: ["calorie tracker", "food analysis", "AI nutrition", "meal tracking", "diet planning"],
+  title: "Kalori-AI | Analisis Kalori Makanan dengan AI",
+  description: "Upload foto makanan dan dapatkan analisis kalori serta nutrisi instan menggunakan AI. Lacak makronutrien, identifikasi bahan makanan, dan buat keputusan diet yang tepat.",
+  keywords: ["kalori tracker", "analisis makanan", "AI nutrisi", "pelacakan makanan", "perencanaan diet", "kalori AI"],
   authors: [{ name: "maux ai" }],
   creator: "maux ai",
   openGraph: {
-    title: "Calorie Tracker | AI-Powered Food Analysis",
-    description: "Upload food images and get instant calorie counts and nutritional analysis powered by advanced AI.",
+    title: "Kalori-AI | Analisis Kalori Makanan dengan AI",
+    description: "Upload foto makanan dan dapatkan analisis kalori serta nutrisi instan menggunakan AI.",
     type: "website",
-    siteName: "Calorie Tracker",
+    siteName: "Kalori-AI",
   },
 
   robots: "index, follow",
@@ -41,11 +41,14 @@ export default function RootLayout({
       <head>
         <link rel="manifest" href="/manifest.json" />
         <link rel="icon" href="/logo.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/logo.png" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="Calories Tracker" />
+        <meta name="apple-mobile-web-app-title" content="Kalori-AI" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="theme-color" content="#ffffff" />
+        <meta name="msapplication-TileColor" content="#ffffff" />
+        <meta name="msapplication-TileImage" content="/logo.png" />
         <script src="/register-service-worker.js" defer></script>
       </head>
       <body

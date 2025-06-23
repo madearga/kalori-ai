@@ -1,10 +1,8 @@
-const CACHE_NAME = 'calories-tracker-v1';
+const CACHE_NAME = 'kalori-ai-v1';
 const ASSETS_TO_CACHE = [
   '/',
-  '/index.html',
   '/manifest.json',
-  '/icon-192x192.png',
-  '/icon-512x512.png',
+  '/logo.png',
   '/next.svg',
   '/vercel.svg',
   '/file.svg',

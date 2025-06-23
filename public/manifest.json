@@ -1,7 +1,7 @@
 {
-  "name": "Calories Tracker",
-  "short_name": "Calories",
-  "description": "Track your daily calorie intake with ease.",
+  "name": "Kalori-AI",
+  "short_name": "Kalori-AI",
+  "description": "Analisis kalori makanan dengan AI - Upload foto makanan dan dapatkan informasi nutrisi instan.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -16,6 +16,12 @@
     {
       "src": "/logo.png",
       "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "1024x1024",
       "type": "image/png",
       "purpose": "any maskable"
     }

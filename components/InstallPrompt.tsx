@@ -56,9 +56,9 @@ export function InstallPrompt() {
 
   return (
     <div className="fixed bottom-4 right-4 bg-white dark:bg-gray-800 shadow-lg rounded-lg p-4 max-w-xs z-50">
-      <h2 className="text-lg font-semibold mb-2">Install Calories Tracker</h2>
+      <h2 className="text-lg font-semibold mb-2">Install Kalori-AI</h2>
       <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
-        Install this app on your device for quick access and a better experience.
+        Install aplikasi ini di perangkat Anda untuk akses cepat dan pengalaman yang lebih baik.
       </p>
       <div className="flex gap-2">
         <Button onClick={handleInstallClick} variant="default">
